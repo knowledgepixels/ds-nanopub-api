@@ -10,7 +10,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix dct: <http://purl.org/dc/terms/>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-select distinct ?np ?label ?superclass ?date where {
+select distinct ?np ?class ?label ?superclass ?date where {
   graph npa:graph {
     ?np npa:hasHeadGraph ?h .
     ?np dct:created ?date .
@@ -21,8 +21,8 @@ select distinct ?np ?label ?superclass ?date where {
     ?np np:hasPublicationInfo ?i.
   }
   graph ?a {
-    ?spi rdfs:subClassOf ?superclass .
-    ?spi rdfs:label ?label .
+    ?class rdfs:subClassOf ?superclass .
+    ?class rdfs:label ?label .
   }
   graph ?i {
     ?np dct:creator ?__creator_iri .
