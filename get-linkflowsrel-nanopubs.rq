@@ -35,7 +35,7 @@ select distinct ?np ?subj ?rel ?obj ?label ?date where {
   }
   bind(coalesce(?subjlabel, replace(str(?subj), "^.*/([^/]*)$", "$1")) as ?subjx)
   bind(coalesce(?objlabel, replace(str(?obj), "^.*/([^/]*)$", "$1")) as ?objx)
-  bind(concat(?subjx, " ", ?rellabel, " ", ?objx, ".") as ?label)
+  bind(concat(?subjx, " ", ?rellabel, " ", ?objx) as ?label)
   filter not exists {
     graph npa:graph {
       ?newversion npa:hasHeadGraph ?nh .
