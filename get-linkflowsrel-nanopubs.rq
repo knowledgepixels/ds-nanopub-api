@@ -24,16 +24,18 @@ select distinct ?np ?subj ?rel ?obj ?label ?date where {
   graph ?a {
     ?subj ?rel ?obj .
     filter regex(?rel, "https://w3id.org/linkflows/superpattern/terms/.*")
-    filter not exists { ?s ?r <https://w3id.org/linkflows/superpattern/terms/SuperPatternInstance> }
   }
   graph ?i {
     ?np dct:creator ?__creator_iri .
     optional { ?subj nt:hasLabelFromApi ?subjlabel }
     optional { ?obj nt:hasLabelFromApi ?objlabel }
   }
+  graph <http://purl.org/np/RAm_J6ouyexskBDx9FEIvv9SEKoN_s7KIQMMvx8ZL_3PA#assertion> {
+    ?rel rdfs:label ?rellabel .
+  }
   bind(coalesce(?subjlabel, replace(str(?subj), "^.*/([^/]*)$", "$1")) as ?subjx)
   bind(coalesce(?objlabel, replace(str(?obj), "^.*/([^/]*)$", "$1")) as ?objx)
-  bind(concat(?subjx, " ", replace(str(?rel), "^.*/([^/]*)$", "$1"), " ", ?objx) as ?label)
+  bind(concat(?subjx, " ", ?rellabel, " ", ?objx, ".") as ?label)
   filter not exists {
     graph npa:graph {
       ?newversion npa:hasHeadGraph ?nh .
