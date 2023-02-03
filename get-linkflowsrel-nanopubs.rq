@@ -9,8 +9,9 @@ prefix npx: <http://purl.org/nanopub/x/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix dct: <http://purl.org/dc/terms/>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix nt: <https://w3id.org/np/o/ntemplate/>
 
-select distinct ?np ?subj ?rel ?obj ?date where {
+select distinct ?np ?subj ?rel ?obj ?label ?date where {
   graph npa:graph {
     ?np npa:hasHeadGraph ?h .
     ?np dct:created ?date .
@@ -27,7 +28,12 @@ select distinct ?np ?subj ?rel ?obj ?date where {
   }
   graph ?i {
     ?np dct:creator ?__creator_iri .
+    optional { ?subj nt:hasLabelFromApi ?subjlabel }
+    optional { ?obj nt:hasLabelFromApi ?objlabel }
   }
+  bind(coalesce(?subjlabel, replace(str(?subj), "^.*/([^/]*)$", "$1")) as ?subjx)
+  bind(coalesce(?objlabel, replace(str(?obj), "^.*/([^/]*)$", "$1")) as ?objx)
+  bind(concat(?subjx, " ", replace(str(?rel), "^.*/([^/]*)$", "$1"), " ", ?objx) as ?label)
   filter not exists {
     graph npa:graph {
       ?newversion npa:hasHeadGraph ?nh .
