@@ -33,8 +33,8 @@ select distinct ?np ?subj ?rel ?obj ?label ?date where {
   graph <http://purl.org/np/RAm_J6ouyexskBDx9FEIvv9SEKoN_s7KIQMMvx8ZL_3PA#assertion> {
     ?rel rdfs:label ?rellabel .
   }
-  bind(coalesce(?subjlabel, replace(str(?subj), "^.*/([^/]*)$", "$1")) as ?subjx)
-  bind(coalesce(?objlabel, replace(str(?obj), "^.*/([^/]*)$", "$1")) as ?objx)
+  bind(coalesce(replace(str(?subjlabel), " - .*", ""), replace(str(?subj), "^.*/([^/]*)$", "$1")) as ?subjx)
+  bind(coalesce(replace(str(?objlabel), " - .*", ""), replace(str(?obj), "^.*/([^/]*)$", "$1")) as ?objx)
   bind(concat(?subjx, " ", ?rellabel, " ", ?objx) as ?label)
   filter not exists {
     graph npa:graph {
