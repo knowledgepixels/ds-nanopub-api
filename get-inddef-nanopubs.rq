@@ -21,7 +21,9 @@ select distinct ?np ?individual ?class ?label ?description ?date where {
     ?np np:hasPublicationInfo ?i.
   }
   graph ?a {
+    ?individual a <http://www.w3.org/2002/07/owl#NamedIndividual> .
     ?individual a ?class .
+    filter(?class != <http://www.w3.org/2002/07/owl#NamedIndividual>)
     ?individual rdfs:label ?label .
     ?individual dct:description ?description .
   }
