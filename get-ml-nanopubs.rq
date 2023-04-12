@@ -26,6 +26,7 @@ select distinct ?np ?run ?label ?description ?date where {
     optional { ?run dct:description ?description . }
   }
   graph ?i {
+    ?np npx:introduces ?run .
     ?np dct:creator ?__creator_iri .
   }
   filter not exists {
