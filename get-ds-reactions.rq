@@ -41,4 +41,4 @@ select distinct ?np ?label ?comment ?ref_np ?date where {
     filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
     filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
   }
-} order by desc(?rdate) limit 100
+} order by desc(?date)
