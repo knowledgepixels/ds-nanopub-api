@@ -1,0 +1,44 @@
+#+ summary: Get all reaction nanopublications relevant to Data Science
+#+ method: GET
+#+ pagination: 1000
+#+ endpoint: https://query.knowledgepixels.com/repo/meta
+
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix np: <http://www.nanopub.org/nschema#>
+prefix npa: <http://purl.org/nanopub/admin/>
+prefix npx: <http://purl.org/nanopub/x/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix dct: <http://purl.org/dc/terms/>
+prefix biolink: <https://w3id.org/biolink/vocab/>
+prefix nt: <https://w3id.org/np/o/ntemplate/>
+prefix biodiv: <https://w3id.org/kpxl/biodiv/terms/>
+prefix prov: <http://www.w3.org/ns/prov#>
+
+select distinct ?np ?label ?comment ?ref_np ?date where {
+  graph npa:graph {
+    ?ref_np npa:hasValidSignatureForPublicKey ?ref_pubkey .
+    values ?ref_type { <https://w3id.org/kpxl/rel/terms/hasRelationTo> <https://w3id.org/kpxl/rel/terms/tendsToHaveRelationTo> <https://w3id.org/linkflows/superpattern/terms/SuperPatternInstance> <http://purl.org/petapico/o/hycl#AIDA-Sentence> <https://w3id.org/biolink/vocab/related_to> <http://www.w3.org/ns/mls#Run> }
+    ?ref_np npx:hasNanopubType ?ref_type .
+    filter not exists { ?ref_np npx:hasNanopubType npx:ExampleNanopub . }
+    filter not exists { ?ref_npx npx:invalidates ?ref_np ; npa:hasValidSignatureForPublicKey ?ref_pubkey . }
+    graph npa:networkGraph {
+      ?np npa:refersToNanopub ?ref_np .
+    }
+    ?np npa:hasValidSignatureForPublicKey ?pubkey .
+    ?np npx:hasNanopubType <http://purl.org/spar/cito/cites> .
+    ?np rdfs:label ?label .
+    ?np dct:created ?date .
+    service <https://query.knowledgepixels.com/repo/type/2c1cce3f3152738c1009d59251409392aaaa3b0324bcb5fdfb4b7b944b8f0c18> {
+      select ?np ?comment where {
+        graph npa:graph {
+          ?np np:hasAssertion ?a .
+        }
+        graph ?a {
+          ?a rdfs:comment ?comment .
+        }
+      }
+    }
+    filter not exists { ?np npx:hasNanopubType npx:ExampleNanopub . }
+    filter not exists { ?npx npx:invalidates ?np ; npa:hasValidSignatureForPublicKey ?pubkey . }
+  }
+} order by desc(?rdate) limit 100
