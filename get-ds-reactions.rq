@@ -14,7 +14,7 @@ prefix nt: <https://w3id.org/np/o/ntemplate/>
 prefix biodiv: <https://w3id.org/kpxl/biodiv/terms/>
 prefix prov: <http://www.w3.org/ns/prov#>
 
-select distinct ?np ?label ?comment ?ref_np ?date where {
+select distinct ?np ?label ?comment ?ref_np ?pubkey ?date where {
   graph npa:graph {
     ?ref_np npa:hasValidSignatureForPublicKey ?ref_pubkey .
     values ?ref_type { <https://w3id.org/kpxl/rel/terms/hasRelationTo> <https://w3id.org/kpxl/rel/terms/tendsToHaveRelationTo> <https://w3id.org/linkflows/superpattern/terms/SuperPatternInstance> <http://purl.org/petapico/o/hycl#AIDA-Sentence> <https://w3id.org/biolink/vocab/related_to> <http://www.w3.org/ns/mls#Run> }
