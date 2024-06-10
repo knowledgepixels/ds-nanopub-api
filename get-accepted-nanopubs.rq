@@ -10,7 +10,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix dct: <http://purl.org/dc/terms/>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-select distinct ?np ?label ?date where {
+select distinct ?np ?label ?pubkey ?date where {
   graph npa:graph {
     ?np npa:hasHeadGraph ?h .
     ?np dct:created ?date .bind("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCjDGQCS1S+SRnERDuYDXOugdYUP0efEquHJEEHAbU/uLzBVlga89zqrNPCS7fBE6lArBUWEmT8eLKdMapyqvAzI1J3jUWTMhDJF+XFBkUiuiFfNSc4vJJcmi0yujtnuzXsRIG202jyaP4f5ULoskFwaZOSBZJfiE0dsB3D7DTIAQIDAQAB"^^xsd:string as ?pubkey)
